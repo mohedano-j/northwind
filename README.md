@@ -17,7 +17,9 @@ The included solution contains several projects:
 - Northwind.Services - This contains all of the contract implementations and data access code.
 - Northwind.ConsoleApp - This is a very basic console application primarily used to provde that Northwind.Services is working.
 - Northwind.Web - This is a Web API project that provides access to your local "Northwind" database over HTTP.
-- Northwind.Angular.Web - This is a Angular 7 application that uses the Northwind Web API services.
+- Northwind.Web.Store - This is a Angular 7 application that acts as the customer-facing front-end.
+- Northwind.Web.Admin - This is a React+Redux staff-facing backend site.
+- Northwind.Web.Admin2 - This is a React (no Redux) staff-facing backend.
 - Northwind.Support - Contains solution support files. This is _not_ compiled.
 
 ## Setup

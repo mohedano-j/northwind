@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web.Store", "Nort
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Web.Admin", "Northwind.Admin.Web\Northwind.Web.Admin.csproj", "{4F57C2CD-C8B8-447E-AF2D-31E3B230CC1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Web.Store2", "Northwind.Web.Store2\Northwind.Web.Store2.csproj", "{C0E4D14D-0035-4734-AD06-AA517FB76214}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Web.Admin2", "Northwind.Web.Store2\Northwind.Web.Admin2.csproj", "{C0E4D14D-0035-4734-AD06-AA517FB76214}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
