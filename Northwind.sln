@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Services", "North
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.ConsoleApp", "Northwind.ConsoleApp\Northwind.ConsoleApp.csproj", "{F740A0DC-97DB-4EF8-9112-E7B31ACFA842}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Web", "Northwind.Web\Northwind.Web.csproj", "{41B96283-9A44-47B8-940C-8E03234CFED4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Web", "Northwind.Web\Northwind.Web.csproj", "{41B96283-9A44-47B8-940C-8E03234CFED4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Support", "Northwind.Support\Northwind.Support.csproj", "{6132F926-8FD1-48E3-903D-2C5503D2818C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Northwind.Support", "Northwind.Support\Northwind.Support.csproj", "{6132F926-8FD1-48E3-903D-2C5503D2818C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Northwind.Angular.Web", "Northwind.Angular.Web\Northwind.Angular.Web.csproj", "{FEBD91E3-853C-4335-8578-25695B91AAF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{6132F926-8FD1-48E3-903D-2C5503D2818C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6132F926-8FD1-48E3-903D-2C5503D2818C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6132F926-8FD1-48E3-903D-2C5503D2818C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEBD91E3-853C-4335-8578-25695B91AAF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEBD91E3-853C-4335-8578-25695B91AAF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEBD91E3-853C-4335-8578-25695B91AAF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEBD91E3-853C-4335-8578-25695B91AAF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
