@@ -1,5 +1,10 @@
 <h1>Northwind Product List</h1>
 
+<form>
+  <input #productId type="text" />
+  <button (click)="getByProductId(productId.value)">Get By Product ID</button>
+</form>
+
 <table class="table table-striped table-condensed">
   <tr>
     <th>Product ID</th>

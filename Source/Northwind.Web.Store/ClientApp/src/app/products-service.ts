@@ -11,4 +11,12 @@ export class ProductsService {
   getProducts() {
     return this.http.get("http://localhost/northwind.web/products");
   }
+
+  getProductsBySearch(search: string) {
+    return this.http.get("http://localhost/northwind.web/products/search/" + search);
+  }
+
+  getProductsByProductId(productId: number) {
+    return this.http.get("http://localhost/northwind.web/products/" + productId);
+  }
 }
