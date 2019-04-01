@@ -18,8 +18,6 @@ The included solution contains several projects:
 - Northwind.ConsoleApp - This is a very basic console application primarily used to provde that Northwind.Services is working.
 - Northwind.Web - This is a Web API project that provides access to your local "Northwind" database over HTTP.
 - Northwind.Web.Store - This is a Angular 7 application that acts as the customer-facing front-end.
-- Northwind.Web.Admin - This is a React+Redux staff-facing backend site.
-- Northwind.Web.Admin2 - This is a React (no Redux) staff-facing backend.
 - Northwind.Support - Contains solution support files. This is _not_ compiled.
 
 ## Setup
@@ -29,19 +27,20 @@ The included solution contains several projects:
    - There is a Northwind database backup located here: ./Source/Northwind.Support/Northwind.zip.
    - You should be able to create a new "Northwind" database locally and restore this backup on top of it.
 
-2. Build and publish the Northwind.Web application to a local folder.
+2. Configure both the Northwind.Web and Northwind.Web.Store projects to run under their named configurations:
+	- In Visual Studio at the top of the screen select the "Northwind.Web" project.
+	- Once this project has been selected, its name should appear next to the green play button.
+	- To the right of the play button there is a down-arrow.
+	- Click the down arrow and change from "IIS Express" to "Northwind.Web".
+	- Repeat for "Northwind.Web.Store".
 
-   - We want to publish the Web API in IIS, so that we can call it while debugging the Angular application.
-   - In Visual Studio, publish to a local folder. For example: C:\_publish\northwind.web\
+3. Setup the solution to run multiple projects simulateously.
+	- Right-click on the Northwind solution and select properties.
+	- The "Startup Project" item on the left should be selected.
+	- Click the radio button next to "Multiple startup projects".
+	- For both "Northwind.Web" and "Northwind.Web.Store" change the action to "Start".
 
-3. Configure the Northwind.Web application to run under IIS.
-
-   - At the end of the day this URL should work: http://localhost/northwind.web/products/
-   - Create a new web application called "northwind.web" under your default web site.
-   - Point this application at the published application you setup above.
-   - Locally, I created a new app pool called "northwind.web" that runs under my account. Ideally you would create a custom account and assign permissions accordingly.
-
-4. In Visual Studio, run the Northwind.Angular.Web application.
+You should now be able to debug both the web API project as well as the client application in Visual Studio.
 
 ## To Do
 
@@ -52,4 +51,4 @@ The included solution contains several projects:
 
 - Continue to expand the the Northwind.Web Web API surface (e.g. Add a /categories/ endpoint).
 
-- Create a Northwind.React.Web implementation.
+- Create a Northwind.Web.Admin project that uses React.

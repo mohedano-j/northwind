@@ -15,6 +15,8 @@ namespace Northwind.Web
 {
     public class Startup
     {
+        const string CorsPolicyName = "CorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -31,6 +33,15 @@ namespace Northwind.Web
             {
                 options.AutomaticAuthentication = false;
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicyName,
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +57,7 @@ namespace Northwind.Web
                 app.UseHsts();
             }
 
+            app.UseCors(CorsPolicyName);
             app.UseHttpsRedirection();
             app.UseMvc();
         }

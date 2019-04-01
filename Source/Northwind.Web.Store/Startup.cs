@@ -10,6 +10,8 @@ namespace Northwind.Angular.Web
 {
     public class Startup
     {
+        const string CorsPolicyName = "CorsPolicy";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,6 +29,15 @@ namespace Northwind.Angular.Web
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(CorsPolicyName,
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +54,7 @@ namespace Northwind.Angular.Web
                 app.UseHsts();
             }
 
+            app.UseCors(CorsPolicyName);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -66,6 +78,8 @@ namespace Northwind.Angular.Web
                     spa.UseAngularCliServer(npmScript: "start");
                 }
             });
+
+            app.UseCors("CorsPolicy");
         }
     }
 }

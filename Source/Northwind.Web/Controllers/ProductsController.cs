@@ -60,7 +60,14 @@ namespace Northwind.Web.Controllers
 
         // POST: /products/{product}
         [HttpPost]
-        public void Post([FromBody] Product value) => throw new NotImplementedException();
+        public void Post([FromBody] Product value)
+        {
+            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            {
+                ctx.Products.Add(value);
+                ctx.SaveChanges();
+            }
+        }
 
         // PUT: /products/{product}
         [HttpPut]

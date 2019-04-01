@@ -24,4 +24,14 @@ export class ProductListComponent implements OnInit {
       this.productList.push(product);
     });
   }
+
+  addProduct() {
+    console.log("product-list Adding Product");
+    this.productsService.addProduct();
+
+    console.log("product-list Reloading Products");
+    this.productsService.getProducts().subscribe(products => {
+      this.productList = products;
+    });
+  }
 }
