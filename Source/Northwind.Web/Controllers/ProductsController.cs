@@ -7,49 +7,44 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Northwind.Web.Controllers
 {
-    [Route("[controller]")]
+    [Route("products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        // GET: /products/
-        [HttpGet(Name = nameof(GetAll))]
+        [HttpGet("")]
         public IEnumerable<Product> GetAll()
         {
-            IEnumerable<Product> productList;
+            IEnumerable<Product> resultList;
             using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
             {
-                productList = ctx.Products.ToList();
+                resultList = ctx.Products.ToList();
             }
-            return productList;
+            return resultList;
         }
 
-        // GET: /products/search/{value}
-        [HttpGet("search/{value}", Name = nameof(GetBySearch))]
+        [HttpGet("search/{value}")]
         public IEnumerable<Product> GetBySearch(string value)
         {
-            IEnumerable<Product> productList;
+            IEnumerable<Product> resultList;
             using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
             {
-                productList = ctx.Products.Where(x=>x.ProductName.Contains(value)).ToList();
+                resultList = ctx.Products.Where(x=>x.ProductName.Contains(value)).ToList();
             }
-            return productList;
+            return resultList;
         }
 
-        // GET: /products/category/{categoryId}
-        [HttpGet("category/{categoryId}", Name = nameof(GetByCategoryId))]
+        [HttpGet("category/{categoryId}")]
         public IEnumerable<Product> GetByCategoryId(int categoryId)
         {
-            IEnumerable<Product> productList;
+            IEnumerable<Product> resultList;
             using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
             {
-                productList = ctx.Products.Where(x => x.CategoryId == categoryId).ToList();
+                resultList = ctx.Products.Where(x => x.CategoryId == categoryId).ToList();
             }
-            return productList;
+            return resultList;
         }
 
-
-        // GET: /products/{productId}
-        [HttpGet("{productId}", Name = nameof(GetByProductId))]
+        [HttpGet("{productId}")]
         public Product GetByProductId(int productId)
         {
             using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
@@ -58,7 +53,6 @@ namespace Northwind.Web.Controllers
             }
         }
 
-        // POST: /products/{product}
         [HttpPost]
         public void Post([FromBody] Product value)
         {
@@ -69,12 +63,29 @@ namespace Northwind.Web.Controllers
             }
         }
 
-        // PUT: /products/{product}
         [HttpPut]
-        public void Put([FromBody] Product value) => throw new NotImplementedException();
+        public void Put([FromBody] Product value)
+        {
+            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            {
+                var productToUpdate = ctx.Products.FirstOrDefault(x => x.ProductId == value.ProductId);
 
-        // DELETE: /products/{productId}
+                productToUpdate = AutoMapper.Mapper.Map<Product, Product>(value);
+
+                ctx.SaveChanges();
+            }
+        }
+
         [HttpDelete("{productId}")]
-        public void Delete(int productId) => throw new NotImplementedException();       
+        public void Delete(int productId)
+        {
+            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            {
+                var productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
+
+                ctx.Products.Remove(productToDelete);
+                ctx.SaveChanges();
+            }
+        }
     }
 }
