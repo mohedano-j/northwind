@@ -21,7 +21,10 @@ The included solution contains several projects:
 
 ## Setup
 
-- Restore the "Northwind" database locally.
+- Restore the "Northwind" database located here: ./Source/Northwind.Support/Northwind.bak.zip.
 
-   - There is a Northwind database backup located here: ./Source/Northwind.Support/Northwind.zip.
-   - You should be able to create a new "Northwind" database locally and restore this backup on top of it.
+- For those using an older version of SQL server:
+
+  - Install the latest SQL management studio: https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017
+  - (Server name) > Databases > Import data-tier application.
+  - Restore the backup located here: ./Source/Northwind.bacpac.zip
