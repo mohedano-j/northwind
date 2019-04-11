@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,13 @@ namespace Northwind.Web.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly IMapper _mapper;
+
+        public ProductsController(IMapper mapper)
+        {
+            _mapper = mapper;
+        }
+
         [HttpGet("")]
         public IEnumerable<Product> GetAll()
         {
@@ -54,26 +62,33 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpPost]
-        public void Post([FromBody] Product value)
+        public async Task<Product> Post([FromBody] Product value)
         {
             using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
             {
                 ctx.Products.Add(value);
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
+            return value;
         }
 
         [HttpPut]
-        public void Put([FromBody] Product value)
+        public async Task<Product> Put([FromBody] Product value)
         {
+            Product productToUpdate = null;
+
             using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
             {
-                var productToUpdate = ctx.Products.FirstOrDefault(x => x.ProductId == value.ProductId);
+                productToUpdate = ctx.Products.FirstOrDefault(x => x.ProductId == value.ProductId);
+                
+                productToUpdate.ProductName = value.ProductName;
+                productToUpdate.CategoryId = value.CategoryId;
 
-                productToUpdate = AutoMapper.Mapper.Map<Product, Product>(value);
+                ctx.Products.Update(productToUpdate);
 
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
+            return productToUpdate;
         }
 
         [HttpDelete("{productId}")]
