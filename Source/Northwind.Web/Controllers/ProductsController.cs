@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Services.Data;
 
 namespace Northwind.Web.Controllers
 {
@@ -12,31 +11,24 @@ namespace Northwind.Web.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IMapper _mapper;
-
-        public ProductsController(IMapper mapper)
-        {
-            _mapper = mapper;
-        }
-
         [HttpGet("")]
         public IEnumerable<Product> GetAll()
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDataContext())
             {
                 resultList = ctx.Products.ToList();
             }
             return resultList;
         }
 
-        [HttpGet("search/{value}")]
-        public IEnumerable<Product> GetBySearch(string value)
+        [HttpGet("find/{query}")]
+        public IEnumerable<Product> Find(string query)
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDataContext())
             {
-                resultList = ctx.Products.Where(x=>x.ProductName.Contains(value)).ToList();
+                resultList = ctx.Products.Where(x=>x.ProductName.Contains(query)).ToList();
             }
             return resultList;
         }
@@ -45,7 +37,7 @@ namespace Northwind.Web.Controllers
         public IEnumerable<Product> GetByCategoryId(int categoryId)
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDataContext())
             {
                 resultList = ctx.Products.Where(x => x.CategoryId == categoryId).ToList();
             }
@@ -53,7 +45,7 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpGet("{productId}")]
-        public Product GetByProductId(int productId)
+        public Product GetOne(int productId)
         {
             using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
             {
@@ -62,9 +54,9 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<Product> Post([FromBody] Product value)
+        public async Task<Product> Add([FromBody] Product value)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDataContext())
             {
                 ctx.Products.Add(value);
                 await ctx.SaveChangesAsync();
@@ -73,11 +65,11 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpPut]
-        public async Task<Product> Put([FromBody] Product value)
+        public async Task<Product> Edit([FromBody] Product value)
         {
             Product productToUpdate = null;
 
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDataContext())
             {
                 productToUpdate = ctx.Products.FirstOrDefault(x => x.ProductId == value.ProductId);
                 
