@@ -22,13 +22,13 @@ namespace Northwind.Web.Controllers
             return resultList;
         }
 
-        [HttpGet("find/{query}")]
-        public IEnumerable<Product> Find(string query)
+        [HttpGet("search/{term}")]
+        public IEnumerable<Product> Find(string term)
         {
             IEnumerable<Product> resultList;
             using (var ctx = new NorthwindDataContext())
             {
-                resultList = ctx.Products.Where(x=>x.ProductName.Contains(query)).ToList();
+                resultList = ctx.Products.Where(x=>x.ProductName.Contains(term)).ToList();
             }
             return resultList;
         }
