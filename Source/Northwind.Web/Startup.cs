@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -14,6 +15,14 @@ using Swashbuckle.AspNetCore.Swagger;
 
 namespace Northwind.Web
 {
+    public class MappingProfile : Profile
+    {
+        public MappingProfile()
+        {
+            CreateMap<Product, Product>();
+        }
+    }
+
     public class Startup
     {
         const string CorsPolicyName = "CorsPolicy";
@@ -48,6 +57,15 @@ namespace Northwind.Web
             {
                 c.SwaggerDoc("v1", new Info { Title = "Northwind.Web", Version = "v1" });
             });
+
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

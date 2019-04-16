@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Northwind.Services.Data;
 
 namespace Northwind.Web.Controllers
 {
@@ -15,20 +15,20 @@ namespace Northwind.Web.Controllers
         public IEnumerable<Product> GetAll()
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 resultList = ctx.Products.ToList();
             }
             return resultList;
         }
 
-        [HttpGet("search/{value}")]
-        public IEnumerable<Product> GetBySearch(string value)
+        [HttpGet("search/{term}")]
+        public IEnumerable<Product> Find(string term)
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
-                resultList = ctx.Products.Where(x=>x.ProductName.Contains(value)).ToList();
+                resultList = ctx.Products.Where(x=>x.ProductName.Contains(term)).ToList();
             }
             return resultList;
         }
@@ -37,7 +37,7 @@ namespace Northwind.Web.Controllers
         public IEnumerable<Product> GetByCategoryId(int categoryId)
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 resultList = ctx.Products.Where(x => x.CategoryId == categoryId).ToList();
             }
@@ -45,41 +45,48 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpGet("{productId}")]
-        public Product GetByProductId(int productId)
+        public Product GetOne(int productId)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 return ctx.Products.FirstOrDefault(x => x.ProductId == productId);
             }
         }
 
         [HttpPost]
-        public void Post([FromBody] Product value)
+        public async Task<Product> Add([FromBody] Product value)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 ctx.Products.Add(value);
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
+            return value;
         }
 
         [HttpPut]
-        public void Put([FromBody] Product value)
+        public async Task<Product> Edit([FromBody] Product value)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            Product productToUpdate = null;
+
+            using (var ctx = new NorthwindDbContext())
             {
-                var productToUpdate = ctx.Products.FirstOrDefault(x => x.ProductId == value.ProductId);
+                productToUpdate = ctx.Products.FirstOrDefault(x => x.ProductId == value.ProductId);
+                
+                productToUpdate.ProductName = value.ProductName;
+                productToUpdate.CategoryId = value.CategoryId;
 
-                productToUpdate = AutoMapper.Mapper.Map<Product, Product>(value);
+                ctx.Products.Update(productToUpdate);
 
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
+            return productToUpdate;
         }
 
         [HttpDelete("{productId}")]
         public void Delete(int productId)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 var productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
 
