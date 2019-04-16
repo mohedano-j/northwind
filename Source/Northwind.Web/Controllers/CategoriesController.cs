@@ -15,7 +15,7 @@ namespace Northwind.Web.Controllers
         public IEnumerable<Category> GetAll()
         {
             IEnumerable<Category> resultList;
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 resultList = ctx.Categories.ToList();
             }

@@ -28,3 +28,11 @@ The included solution contains several projects:
   - Install the latest SQL management studio: https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017
   - (Server name) > Databases > Import data-tier application.
   - Restore the backup located here: ./Source/Northwind.bacpac.zip
+
+ ## Notes
+
+ * The POCO entities and DbContext were generated using EF Core Power Tools.
+	* Install the extension.
+	* Right-click on the project.
+	* Select EF Core Power Tools > Reverse Engineer.
+	* Select table which tables to include.

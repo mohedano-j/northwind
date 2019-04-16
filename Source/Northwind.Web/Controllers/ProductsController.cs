@@ -15,7 +15,7 @@ namespace Northwind.Web.Controllers
         public IEnumerable<Product> GetAll()
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 resultList = ctx.Products.ToList();
             }
@@ -26,7 +26,7 @@ namespace Northwind.Web.Controllers
         public IEnumerable<Product> Find(string term)
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 resultList = ctx.Products.Where(x=>x.ProductName.Contains(term)).ToList();
             }
@@ -37,7 +37,7 @@ namespace Northwind.Web.Controllers
         public IEnumerable<Product> GetByCategoryId(int categoryId)
         {
             IEnumerable<Product> resultList;
-            using (var ctx = new NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 resultList = ctx.Products.Where(x => x.CategoryId == categoryId).ToList();
             }
@@ -47,7 +47,7 @@ namespace Northwind.Web.Controllers
         [HttpGet("{productId}")]
         public Product GetOne(int productId)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 return ctx.Products.FirstOrDefault(x => x.ProductId == productId);
             }
@@ -56,7 +56,7 @@ namespace Northwind.Web.Controllers
         [HttpPost]
         public async Task<Product> Add([FromBody] Product value)
         {
-            using (var ctx = new NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 ctx.Products.Add(value);
                 await ctx.SaveChangesAsync();
@@ -69,7 +69,7 @@ namespace Northwind.Web.Controllers
         {
             Product productToUpdate = null;
 
-            using (var ctx = new NorthwindDataContext())
+            using (var ctx = new NorthwindDbContext())
             {
                 productToUpdate = ctx.Products.FirstOrDefault(x => x.ProductId == value.ProductId);
                 
@@ -86,7 +86,7 @@ namespace Northwind.Web.Controllers
         [HttpDelete("{productId}")]
         public void Delete(int productId)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 var productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
 

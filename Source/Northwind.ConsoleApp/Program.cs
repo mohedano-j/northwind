@@ -8,7 +8,7 @@ namespace Northwind.ConsoleApp
     {
         static void Main(string[] args)
         {
-            using (var ctx = new Northwind.Services.Data.NorthwindDataContext())
+            using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 var productList = ctx.Products.ToList();
                 foreach (var product in productList)
