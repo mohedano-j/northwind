@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Services.Data;
@@ -11,9 +12,11 @@ namespace Northwind.Web.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        [HttpGet("")]
-        public IEnumerable<Product> GetAll()
+        [HttpGet("{sleep?}")]
+        public IEnumerable<Product> GetAll(int sleep = 0)
         {
+            Thread.Sleep(sleep);
+
             IEnumerable<Product> resultList;
             using (var ctx = new NorthwindDbContext())
             {
@@ -22,20 +25,24 @@ namespace Northwind.Web.Controllers
             return resultList;
         }
 
-        [HttpGet("search/{term}")]
-        public IEnumerable<Product> Find(string term)
+        [HttpGet("search/{term}/{sleep?}")]
+        public IEnumerable<Product> Search(string term, int sleep = 0)
         {
+            Thread.Sleep(sleep);
+
             IEnumerable<Product> resultList;
             using (var ctx = new NorthwindDbContext())
             {
-                resultList = ctx.Products.Where(x=>x.ProductName.Contains(term)).ToList();
+                resultList = ctx.Products.Where(x => x.ProductName.Contains(term)).ToList();
             }
             return resultList;
         }
 
-        [HttpGet("category/{categoryId}")]
-        public IEnumerable<Product> GetByCategoryId(int categoryId)
+        [HttpGet("category/{categoryId}/{sleep?}")]
+        public IEnumerable<Product> GetByCategoryId(int categoryId, int sleep = 0)
         {
+            Thread.Sleep(sleep);
+
             IEnumerable<Product> resultList;
             using (var ctx = new NorthwindDbContext())
             {
@@ -44,18 +51,22 @@ namespace Northwind.Web.Controllers
             return resultList;
         }
 
-        [HttpGet("{productId}")]
-        public Product GetOne(int productId)
+        [HttpGet("{productId}/{sleep?}")]
+        public Product GetOne(int productId, int sleep = 0)
         {
+            Thread.Sleep(sleep);
+
             using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 return ctx.Products.FirstOrDefault(x => x.ProductId == productId);
             }
         }
 
-        [HttpPost]
-        public async Task<Product> Add([FromBody] Product value)
+        [HttpPost("{sleep?}")]
+        public async Task<Product> Add([FromBody] Product value, int sleep = 0)
         {
+            Thread.Sleep(sleep);
+
             using (var ctx = new NorthwindDbContext())
             {
                 ctx.Products.Add(value);
@@ -64,9 +75,11 @@ namespace Northwind.Web.Controllers
             return value;
         }
 
-        [HttpPut]
-        public async Task<Product> Edit([FromBody] Product value)
+        [HttpPut("{sleep?}")]
+        public async Task<Product> Edit([FromBody] Product value, int sleep = 0)
         {
+            Thread.Sleep(sleep);
+
             Product productToUpdate = null;
 
             using (var ctx = new NorthwindDbContext())
@@ -83,9 +96,11 @@ namespace Northwind.Web.Controllers
             return productToUpdate;
         }
 
-        [HttpDelete("{productId}")]
-        public void Delete(int productId)
+        [HttpDelete("{productId}/{sleep?}")]
+        public void Delete(int productId, int sleep = 0)
         {
+            Thread.Sleep(sleep);
+
             using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
                 var productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
