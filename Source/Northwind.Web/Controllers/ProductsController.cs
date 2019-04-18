@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Northwind.Services.Data;
@@ -11,7 +12,7 @@ namespace Northwind.Web.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        [HttpGet("")]
+        [HttpGet()]
         public IEnumerable<Product> GetAll()
         {
             IEnumerable<Product> resultList;
@@ -22,13 +23,25 @@ namespace Northwind.Web.Controllers
             return resultList;
         }
 
+        [HttpGet("slowly")]
+        public IEnumerable<Product> Slowly()
+        {
+            Thread.Sleep(5000);
+            IEnumerable<Product> resultList;
+            using (var ctx = new NorthwindDbContext())
+            {
+                resultList = ctx.Products.ToList();
+            }
+            return resultList;
+        }
+
         [HttpGet("search/{term}")]
-        public IEnumerable<Product> Find(string term)
+        public IEnumerable<Product> Search(string term)
         {
             IEnumerable<Product> resultList;
             using (var ctx = new NorthwindDbContext())
             {
-                resultList = ctx.Products.Where(x=>x.ProductName.Contains(term)).ToList();
+                resultList = ctx.Products.Where(x => x.ProductName.Contains(term)).ToList();
             }
             return resultList;
         }
@@ -53,7 +66,7 @@ namespace Northwind.Web.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost()]
         public async Task<Product> Add([FromBody] Product value)
         {
             using (var ctx = new NorthwindDbContext())
@@ -64,7 +77,7 @@ namespace Northwind.Web.Controllers
             return value;
         }
 
-        [HttpPut]
+        [HttpPut()]
         public async Task<Product> Edit([FromBody] Product value)
         {
             Product productToUpdate = null;
