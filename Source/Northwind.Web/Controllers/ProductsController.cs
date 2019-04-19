@@ -97,17 +97,19 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpDelete("{productId}/{sleep?}")]
-        public void Delete(int productId, int sleep = 0)
+        public async Task<Product> Delete(int productId, int sleep = 0)
         {
             Thread.Sleep(sleep);
-
+            Product productToDelete = null;
             using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
-                var productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
+                productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
 
-                ctx.Products.Remove(productToDelete);
+                ctx.Products.Remove(productToDelete ?? throw new InvalidOperationException());
                 ctx.SaveChanges();
             }
+            return productToDelete;
+
         }
     }
 }
