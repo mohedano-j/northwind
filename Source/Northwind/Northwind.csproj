@@ -8,4 +8,15 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Entities\Category.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>Category.cs.d.ts</LastGenOutput>
+    </Compile>
+    <Compile Update="Entities\Product.cs">
+      <Generator>DtsGenerator</Generator>
+      <LastGenOutput>Product.cs.d.ts</LastGenOutput>
+    </Compile>
+  </ItemGroup>
+
 </Project>

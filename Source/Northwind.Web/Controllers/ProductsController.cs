@@ -88,6 +88,8 @@ namespace Northwind.Web.Controllers
                 
                 productToUpdate.ProductName = value.ProductName;
                 productToUpdate.CategoryId = value.CategoryId;
+                productToUpdate.UnitPrice = value.UnitPrice;
+                productToUpdate.UnitsInStock = value.UnitsInStock;
 
                 ctx.Products.Update(productToUpdate);
 
@@ -97,15 +99,18 @@ namespace Northwind.Web.Controllers
         }
 
         [HttpDelete("{productId}")]
-        public void Delete(int productId)
+        public async Task<Product> Delete(int productId)
         {
+            Product productToDelete = null; 
+
             using (var ctx = new Northwind.Services.Data.NorthwindDbContext())
             {
-                var productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
+                productToDelete = ctx.Products.FirstOrDefault(x => x.ProductId == productId);
 
                 ctx.Products.Remove(productToDelete);
-                ctx.SaveChanges();
+                await ctx.SaveChangesAsync();
             }
+            return productToDelete;
         }
     }
 }
